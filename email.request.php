@@ -2,35 +2,35 @@
 session_start();
   $msg = '';
   $msg_type = '';
- $_SESSION['email'];
-  if (isset($_POST['login'])) 
+
+  /*if (isset($_POST['otp_generator'])) 
   {
 
     require_once "user.class.php";
 
     // validate the user's inputs
-    $otp = $_POST['otp'];
-  
+    $email = $_POST['email'];
+    
     $user = new User();
-    $login = $user->login($email, $password);
+    $email = $user->insertOtpRequest($email);
 
-    if (!$login) 
+    if (!$email) 
     {
 
       $msg_type = 'danger';
-      $msg = 'Failed to login.';
+      $msg = 'Failed to verify email.';
       
     }
     else
     {
 
       $msg_type = 'success';
-      $msg = 'Login successfully.';
-      header("Location: dashboard.php" );
+      $msg = 'Otp Request successfully Sent...';
+      //header("Location: dashboard.php" );
 
     }
     
-  }
+  }*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,6 +50,7 @@ session_start();
   <link rel="stylesheet" href="template/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="img/logo.jpg" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.slim.min.js" integrity="sha512-fYjSocDD6ctuQ1QGIo9+Nn9Oc4mfau2IiE8Ki1FyMV4OcESUt81FMqmhsZe9zWZ6g6NdczrEMAos1GlLLAipWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
@@ -63,17 +64,16 @@ session_start();
                <center><img src="img/logo.jpg" alt="logo" height="120" style=" width:300px; border-radius: 30px;"></center>
               </div>
     
-              <h6 class="font-weight-light">Provide Your Otp to continue.</h6>
+              <h6 class="font-weight-light">Provide Your Email for verification.</h6>
               <div class="alert alert-<?php echo $msg_type; ?>">
                 <?php echo $msg; ?>
-                  <?php echo $_SESSION['email']; ?>
               </div>
               <form class="pt-3" method="POST" action="">
                 <div class="form-group">
-                  <input type="number" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter Your Otp.." name="otp">
+                  <input type="text" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email">
                 </div>
                  <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="login">Login</button>
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="otp_generator" id="otp_generator">Generate Otp</button>
                 </div>
               </form>
             </div>
@@ -86,13 +86,25 @@ session_start();
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="../template/vendors/base/vendor.bundle.base.js"></script>
+  <!-- <script src="./template/vendors/base/vendor.bundle.base.js"></script> -->
   <!-- endinject -->
   <!-- inject:js -->
-  <script src="../template/js/off-canvas.js"></script>
-  <script src="../template/js/hoverable-collapse.js"></script>
-  <script src="../template/js/template.js"></script>
+  <!-- <script src="./template/js/off-canvas.js"></script>
+  <script src="./template/js/hoverable-collapse.js"></script>
+  <script src="./template/js/template.js"></script> -->
   <!-- endinject -->
+  <script type="text/javascript">
+    var emailElm = document.getElementById("email");
+    $(document).ready(function (){
+      $('#otp_generator').on('click',function(e){
+        e.preventDefault();
+        emailElm.style.display = "none";  
+        
+
+      });
+    })
+
+  </script>
 </body>
 
 </html>

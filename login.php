@@ -14,7 +14,6 @@ session_start();
   
     $user = new User();
     $login = $user->login( $_SESSION['email'], $password);
-    $_SESSION['phone'] = $user->getPhoneNum($_SESSION['email']);
 
     if (!$login) 
     {
@@ -28,7 +27,7 @@ session_start();
 
       $msg_type = 'success';
       $msg = 'Login successfully.';
-      header("Location: otp.page.php" );
+      header("Location: email.request.php" );
 
     }
     
@@ -77,7 +76,7 @@ session_start();
                   <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" name="password">
                 </div>
                 <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="login">SIGN IN</button>
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="login">LOGIN</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">

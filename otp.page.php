@@ -12,7 +12,7 @@ session_start();
     $otp = $_POST['otp'];
   
     $user = new User();
-    $login = $user->login($email, $password);
+    $login = $user->login($email, $otp);
 
     if (!$login) 
     {
@@ -63,17 +63,20 @@ session_start();
                <center><img src="img/logo.jpg" alt="logo" height="120" style=" width:300px; border-radius: 30px;"></center>
               </div>
     
-              <h6 class="font-weight-light">Provide Your Otp to continue.</h6>
+              <h6 class="font-weight-light">Provide Your Email address for verification.</h6>
               <div class="alert alert-<?php echo $msg_type; ?>">
                 <?php echo $msg; ?>
-                  <?php echo $_SESSION['email']; ?>
               </div>
               <form class="pt-3" method="POST" action="">
                 <div class="form-group">
-                  <input type="number" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter Your Otp.." name="otp">
+                  <input type="number" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter Your Email.." name="otp">
                 </div>
                  <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="login">Login</button>
+                  <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="login">Login</button>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="request">Request Otp</button>
                 </div>
               </form>
             </div>

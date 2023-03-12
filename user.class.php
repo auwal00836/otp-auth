@@ -71,6 +71,14 @@
 
 			return false;
 		}
+
+		public function insertOtpRequest($email){
+			$database = new dBase();
+			$rowsAffected = $database->nonQuery("INSERT INTO `otp_request`(`email`) VALUES(?) ", [$email]);
+			return $rowsAffected > 0 ? true : false;
+
+		}
+
 	}//end class
 
 
