@@ -1,110 +1,86 @@
-<?php 
-session_start();
-  $msg = '';
-  $msg_type = '';
+<?php session_start(); ?>
+<?php if(isset($_SESSION['email'])): ?>
+  <?php
+     $msg = '';
+     $msg_type='';
+     unset($_SESSION['email']);
+  ?>
+  <!DOCTYPE html>
+  <html lang="en">
 
-  /*if (isset($_POST['otp_generator'])) 
-  {
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Otp System</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="template/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="template/vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="template/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="img/logo.jpg" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.slim.min.js" integrity="sha512-fYjSocDD6ctuQ1QGIo9+Nn9Oc4mfau2IiE8Ki1FyMV4OcESUt81FMqmhsZe9zWZ6g6NdczrEMAos1GlLLAipWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
 
-    require_once "user.class.php";
-
-    // validate the user's inputs
-    $email = $_POST['email'];
-    
-    $user = new User();
-    $email = $user->insertOtpRequest($email);
-
-    if (!$email) 
-    {
-
-      $msg_type = 'danger';
-      $msg = 'Failed to verify email.';
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth px-0">
+          <div class="row w-100 mx-0">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                <div class="brand-logo">
+                 <center><img src="img/logo.jpg" alt="logo" height="120" style=" width:300px; border-radius: 30px;"></center>
+                </div>
       
-    }
-    else
-    {
-
-      $msg_type = 'success';
-      $msg = 'Otp Request successfully Sent...';
-      //header("Location: dashboard.php" );
-
-    }
-    
-  }*/
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Otp System</title>
-  <!-- plugins:css -->
-  <link rel="stylesheet" href="template/vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="template/vendors/base/vendor.bundle.base.css">
-  <!-- endinject -->
-  <!-- plugin css for this page -->
-  <!-- End plugin css for this page -->
-  <!-- inject:css -->
-  <link rel="stylesheet" href="template/css/style.css">
-  <!-- endinject -->
-  <link rel="shortcut icon" href="img/logo.jpg" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.slim.min.js" integrity="sha512-fYjSocDD6ctuQ1QGIo9+Nn9Oc4mfau2IiE8Ki1FyMV4OcESUt81FMqmhsZe9zWZ6g6NdczrEMAos1GlLLAipWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</head>
-
-<body>
-  <div class="container-scroller">
-    <div class="container-fluid page-body-wrapper full-page-wrapper">
-      <div class="content-wrapper d-flex align-items-center auth px-0">
-        <div class="row w-100 mx-0">
-          <div class="col-lg-4 mx-auto">
-            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-              <div class="brand-logo">
-               <center><img src="img/logo.jpg" alt="logo" height="120" style=" width:300px; border-radius: 30px;"></center>
-              </div>
-    
-              <h6 class="font-weight-light">Provide Your Email for verification.</h6>
-              <div class="alert alert-<?php echo $msg_type; ?>">
-                <?php echo $msg; ?>
-              </div>
-              <form class="pt-3" method="POST" action="">
-                <div class="form-group">
-                  <input type="text" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email">
+                <h6 class="font-weight-light">Provide Your Email for verification.</h6>
+                <div class="alert alert-<?php echo $msg_type; ?>">
+                  <?php echo $msg; ?>
                 </div>
-                 <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="otp_generator" id="otp_generator">Generate Otp</button>
-                </div>
-              </form>
+                <form class="pt-3" method="POST" action="">
+                  <div class="form-group">
+                    <input type="text" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email">
+                  </div>
+                   <div class="mt-3">
+                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="otp_generator" id="otp_generator">Generate Otp</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
+        <!-- content-wrapper ends -->
       </div>
-      <!-- content-wrapper ends -->
+      <!-- page-body-wrapper ends -->
     </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <!-- plugins:js -->
-  <!-- <script src="./template/vendors/base/vendor.bundle.base.js"></script> -->
-  <!-- endinject -->
-  <!-- inject:js -->
-  <!-- <script src="./template/js/off-canvas.js"></script>
-  <script src="./template/js/hoverable-collapse.js"></script>
-  <script src="./template/js/template.js"></script> -->
-  <!-- endinject -->
-  <script type="text/javascript">
-    var emailElm = document.getElementById("email");
-    $(document).ready(function (){
-      $('#otp_generator').on('click',function(e){
-        e.preventDefault();
-        emailElm.style.display = "none";  
-        
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <!-- <script src="./template/vendors/base/vendor.bundle.base.js"></script> -->
+    <!-- endinject -->
+    <!-- inject:js -->
+    <!-- <script src="./template/js/off-canvas.js"></script>
+    <script src="./template/js/hoverable-collapse.js"></script>
+    <script src="./template/js/template.js"></script> -->
+    <!-- endinject -->
+    <script type="text/javascript">
+      var emailElm = document.getElementById("email");
+      $(document).ready(function (){
+        $('#otp_generator').on('click',function(e){
+          e.preventDefault();
+          emailElm.style.display = "none";  
+          
 
-      });
-    })
+        });
+      })
 
-  </script>
-</body>
+    </script>
+  </body>
 
-</html>
+  </html>
+<?php else: ?>
+  <? header("Location:login.php"); ?>
+<?php endif; ?>

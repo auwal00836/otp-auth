@@ -1,7 +1,9 @@
 <?php 
 session_start();
+
   $msg = '';
   $msg_type = '';
+
 
   if (isset($_POST['login'])) 
   {
@@ -32,6 +34,8 @@ session_start();
     }
     
   }
+  
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
