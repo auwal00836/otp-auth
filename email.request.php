@@ -3,7 +3,7 @@
   <?php
      $msg = '';
      $msg_type='';
-     unset($_SESSION['email']);
+     // unset($_SESSION['email']);
   ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="template/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="img/logo.jpg" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.slim.min.js" integrity="sha512-fYjSocDD6ctuQ1QGIo9+Nn9Oc4mfau2IiE8Ki1FyMV4OcESUt81FMqmhsZe9zWZ6g6NdczrEMAos1GlLLAipWg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   <script src="js/jquery.min.js" type="text/javascript"></script>
   </head>
 
   <body>
@@ -72,15 +72,25 @@
         $('#otp_generator').on('click',function(e){
           e.preventDefault();
           emailElm.style.display = "none";  
-          
+           $.ajax({
+                  url:"api.request.php",
+                  method:"POST",
+                  data:{email: emailElm.value},
+                  dataType:"json",
+                  success:function(data){
+                      console.log(data);
+                     
+                  }
+              });
 
         });
       })
 
     </script>
+    
   </body>
 
   </html>
 <?php else: ?>
-  <? header("Location:login.php"); ?>
+  <? header("Location: login.php"); ?>
 <?php endif; ?>

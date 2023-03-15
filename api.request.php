@@ -4,29 +4,33 @@ require_once "config/dBase.php";
 
 $error = array("message" => "Method Not Allowed");
 
- if(isset($_POST['otp_generator'])){
+ 
   require_once "user.class.php";
   $data = array();
 
 
   $database = new dBase();
-  //$email = $_POST['email'];
-  $email ="afafa";
+  $email = $_POST['email'];
+
 
   $user = new User();
-  $requested = $user->insertOtpRequest($email);
+  //$requested = $user->insertOtpRequest($email);
+  $requested = $user->userExistsRequest($email);
 
-  if (!$requested) 
+  if ($email == $requested) 
   {
-  echo "fail";    
+  //echo json_encode('success');
+    //$time = new date();
+    $requested = $user->insertOtpRequest($email);
+
   }
   else
   {
-    echo "sss";
+     echo json_encode('Failed');
 
   }
 
- }
+// echo json_encode($_POST['email']);
 
   /*while($row = mysqli_fetch_assoc($result)){
     array_push($data, $row);

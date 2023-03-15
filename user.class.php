@@ -78,6 +78,22 @@
 			return $rowsAffected > 0 ? true : false;
 
 		}
+		public function userExistsRequest($email)
+		{
+
+			$this->database = new dBase();
+			
+			$matchingRecordsCount = $this->database->nonQuery("SELECT * FROM `users` 
+				WHERE  `email` = ? ", [$email]);
+			return $matchingRecordsCount > 0 ? true : false;
+
+		}
+		/*public function updateOtpRequest($email){
+			$database = new dBase();
+			$rowsAffected = $database->nonQuery("UPDATE  `otp_request` SET (`email`) VALUES(?), ('generated_time) ", [$email]);
+			return $rowsAffected > 0 ? true : false;
+
+		}*/
 
 	}//end class
 
