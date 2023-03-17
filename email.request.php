@@ -41,9 +41,9 @@
                 <div class="alert alert-<?php echo $msg_type; ?>">
                   <?php echo $msg; ?>
                 </div>
-                <form class="pt-3" method="POST" action="">
+                <form class="pt-3" id="otp_generator">
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email">
+                    <input type="email" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email" required>
                   </div>
                    <div class="mt-3">
                     <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" name="otp_generator" id="otp_generator">Generate Otp</button>
@@ -69,19 +69,23 @@
     <script type="text/javascript">
       var emailElm = document.getElementById("email");
       $(document).ready(function (){
-        $('#otp_generator').on('click',function(e){
+        $("#otp_generator").on("submit", function(e) {
           e.preventDefault();
-          emailElm.style.display = "none";  
-           $.ajax({
-                  url:"api.request.php",
-                  method:"POST",
-                  data:{email: emailElm.value},
-                  dataType:"json",
-                  success:function(data){
-                      console.log(data);
-                     
-                  }
-              });
+          emailElm.style.display = "none";
+          let email = emailElm.value;
+          // if(email === )
+          $.ajax({
+          	url: 'api.request.php',
+          	method: 'POST',
+          	data: {email: email},
+          	dataType: 'json',
+          	success: function(res){
+          		console.log(res)
+          	},
+          	error: function(error){
+          		console.log(error)
+          	}
+          });
 
         });
       })
