@@ -17,12 +17,6 @@ function isUserRegistered($email, $dbconn){
   return $status;
 }
 
-function hasExpired($email,$dbconn){
-	$query = "SELECT * FROM otp_request WHERE email='email'";
-  $result = mysqli_query($dbconn, $query);
-	return false;
-}
-
 function hasExistingRequest($email, $dbconn){
 	$query = "SELECT * FROM otp_request WHERE email='$email'";
   $result = $dbconn->query($query);
@@ -30,10 +24,34 @@ function hasExistingRequest($email, $dbconn){
   return $status;
 }
 
+function hasExpired($otp, $expiryTime){
+		$now = time();
+		if($now > $expiryTime){
+			return true;
+		}
+		return false;
+}
+
+function getOtp($email, $dbconn){
+	$query = "SELECT otp FROM otp_request WHERE email='$email'";
+  $result = $dbconn->query($query);
+  $row = mysqli_fetch_assoc($result);
+  return $row['otp'];	
+}
+
+function getExpiryTime($email,$otp, $dbconn){
+	$query = "SELECT expiry_time FROM otp_request WHERE email='$email' AND otp='$otp'";
+  $result = $dbconn->query($query);
+  $row = mysqli_fetch_assoc($result);
+  return $row['expiry_time'];	
+}
+
 function requestOTP($email, $now, $dbconn){
 	$res = [];
 	$hasExistingRequest = hasExistingRequest($email, $dbconn);
 	$isUserRegistered = isUserRegistered($email, $dbconn);
+	$otp = rand(100000,999999);
+	$expiryTime = $now + 60; //10 minutes
 	
 	if(!$isUserRegistered){
 		$error = array(
@@ -45,20 +63,38 @@ function requestOTP($email, $now, $dbconn){
 	}
 	
 	if($hasExistingRequest){
-		$error = array(
-			'success' => False,
-			'message' => 'Pending Request' 
-		);
-  	array_push($res, $error);
-		return $res;
+		$hasExpired = hasExpired(getOtp($email,$dbconn), getExpiryTime($email, getOtp($email,$dbconn), $dbconn));
+		if(!$hasExpired){
+			$error = array(
+				'success' => False,
+				'message' => 'Pending Request' 
+			);
+			array_push($res, $error);
+			return $res;	
+		}
+		else{
+			$query = "UPDATE otp_request SET otp='$otp', generated_time='$now', expiry_time='$expiryTime' WHERE email='$email'";
+			$result = mysqli_query($dbconn, $query);
+
+			if($result){
+				$data = array(
+					'success' => True,
+					'generatedTime' => $now,
+					'otp' => $otp
+				);
+				array_push($res, $data);
+				return $res;
+			}
+		}
 	}
-  $query = "INSERT INTO otp_request(email, generated_time) VALUES('$email','$now')";
+  $query = "INSERT INTO otp_request(email, otp, generated_time, expiry_time) VALUES('$email','$otp','$now','$expiryTime')";
   $result = mysqli_query($dbconn, $query);
 
   if($result){
   	$data = array(
   		'success' => True,
-  		'generatedTime' => $now
+  		'generatedTime' => $now,
+  		'otp' => $otp
   	);
   	array_push($res, $data);
   	return $res;
@@ -74,7 +110,10 @@ if(isset($_POST['email'])){
 	$email = $_POST['email'];
   $data = array();
   $makeRequest = requestOTP($email, time(), $connect);
+  // $hasExistingRequest = hasExistingRequest($email, $connect);
+  // echo json_encode($hasExistingRequest);
   echo json_encode($makeRequest);
+  // echo json_encode(getOtp($email, $connect));
   // while($row = mysqli_fetch_assoc($result)){
   //   array_push($data, $row);
   // }
