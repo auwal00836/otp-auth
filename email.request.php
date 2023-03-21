@@ -38,9 +38,7 @@
                 </div>
       
                 <h6 class="font-weight-light">Provide Your Email for verification.</h6>
-                <div class="alert alert-<?php echo $msg_type; ?>">
-                  <?php echo $msg; ?>
-                </div>
+                <div class="alert d-none" id="otp"></div>
                 <form class="pt-3" id="otp_generator">
                   <div class="form-group">
                     <input type="email" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email" required>
@@ -57,15 +55,7 @@
       </div>
       <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
-    <!-- <script src="./template/vendors/base/vendor.bundle.base.js"></script> -->
-    <!-- endinject -->
-    <!-- inject:js -->
-    <!-- <script src="./template/js/off-canvas.js"></script>
-    <script src="./template/js/hoverable-collapse.js"></script>
-    <script src="./template/js/template.js"></script> -->
-    <!-- endinject -->
+    
     <script type="text/javascript">
       var emailElm = document.getElementById("email");
       $(document).ready(function (){
@@ -81,6 +71,27 @@
           	dataType: 'json',
           	success: function(res){
           		console.log(res)
+          		if(res.success === true){
+          			document.getElementById('otp').classList.add('alert-success')
+          			document.getElementById('otp').classList.remove('d-none')
+          			document.getElementById('otp').innerHTML = res.otp
+
+          			document.getElementById('otp_generator').style.display = "none";
+          		}
+          		else if(res.success === false && res.otp)
+          		{
+          			document.getElementById('otp').classList.add('alert-warning')
+          			document.getElementById('otp').classList.remove('d-none')
+          			document.getElementById('otp').innerHTML = `${res.message}: ${res.otp}`
+          			document.getElementById('otp_generator').style.display = "none";
+          		}
+          		else
+          		{
+          			document.getElementById('otp').classList.add('alert-danger')
+          			document.getElementById('otp').classList.remove('d-none')
+          			document.getElementById('otp').innerHTML = `${res.message}`	
+          			document.getElementById('otp_generator').style.display = "none";
+          		}
           	},
           	error: function(error){
           		console.log(error)

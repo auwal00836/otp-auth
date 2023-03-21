@@ -32,7 +32,7 @@ function hasExpired($otp, $expiryTime){
 		return false;
 }
 
-function getOtp($email, $dbconn){
+function getOTP($email, $dbconn){
 	$query = "SELECT otp FROM otp_request WHERE email='$email'";
   $result = $dbconn->query($query);
   $row = mysqli_fetch_assoc($result);
@@ -46,8 +46,8 @@ function getExpiryTime($email,$otp, $dbconn){
   return $row['expiry_time'];	
 }
 
+
 function requestOTP($email, $now, $dbconn){
-	$res = [];
 	$hasExistingRequest = hasExistingRequest($email, $dbconn);
 	$isUserRegistered = isUserRegistered($email, $dbconn);
 	$otp = rand(100000,999999);
@@ -58,19 +58,18 @@ function requestOTP($email, $now, $dbconn){
 			'success' => False,
 			'message' => 'User Not Found.' 
 		);
-  	array_push($res, $error);
-		return $res;
+		return $error;
 	}
 	
 	if($hasExistingRequest){
-		$hasExpired = hasExpired(getOtp($email,$dbconn), getExpiryTime($email, getOtp($email,$dbconn), $dbconn));
+		$hasExpired = hasExpired(getOTP($email,$dbconn), getExpiryTime($email, getOTP($email,$dbconn), $dbconn));
 		if(!$hasExpired){
 			$error = array(
 				'success' => False,
-				'message' => 'Pending Request' 
+				'message' => 'You have a Pending OTP',
+				'otp' =>  getOTP($email, $dbconn)
 			);
-			array_push($res, $error);
-			return $res;	
+			return $error;	
 		}
 		else{
 			$query = "UPDATE otp_request SET otp='$otp', generated_time='$now', expiry_time='$expiryTime' WHERE email='$email'";
@@ -82,8 +81,7 @@ function requestOTP($email, $now, $dbconn){
 					'generatedTime' => $now,
 					'otp' => $otp
 				);
-				array_push($res, $data);
-				return $res;
+				return $data;
 			}
 		}
 	}
@@ -96,8 +94,7 @@ function requestOTP($email, $now, $dbconn){
   		'generatedTime' => $now,
   		'otp' => $otp
   	);
-  	array_push($res, $data);
-  	return $res;
+  	return $data;
   }
 }
 
@@ -113,7 +110,7 @@ if(isset($_POST['email'])){
   // $hasExistingRequest = hasExistingRequest($email, $connect);
   // echo json_encode($hasExistingRequest);
   echo json_encode($makeRequest);
-  // echo json_encode(getOtp($email, $connect));
+  // echo json_encode(getOTP($email, $connect));
   // while($row = mysqli_fetch_assoc($result)){
   //   array_push($data, $row);
   // }
