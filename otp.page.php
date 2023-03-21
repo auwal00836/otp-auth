@@ -2,7 +2,6 @@
 session_start();
   $msg = '';
   $msg_type = '';
- $_SESSION['email'];
   if (isset($_POST['login'])) 
   {
 
@@ -73,10 +72,6 @@ session_start();
                 </div>
                  <div class="mt-3">
                   <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="login">Login</button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="request">Request Otp</button>
                 </div>
               </form>
             </div>
