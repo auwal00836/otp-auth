@@ -39,6 +39,9 @@
       
                 <h6 class="font-weight-light">Provide Your Email for verification.</h6>
                 <div class="alert d-none" id="otp"></div>
+                <center>
+                	<h1 id="countDown"></h1>
+                </center>
                 <form class="pt-3" id="otp_generator">
                   <div class="form-group">
                     <input type="email" class="form-control form-control-lg" id="email" placeholder="Enter Your Email.." name="email" required>
@@ -77,6 +80,7 @@
           			document.getElementById('otp').innerHTML = res.otp
 
           			document.getElementById('otp_generator').style.display = "none";
+          			countdownTimer(res.time);
           		}
           		else if(res.success === false && res.otp)
           		{
@@ -84,6 +88,7 @@
           			document.getElementById('otp').classList.remove('d-none')
           			document.getElementById('otp').innerHTML = `${res.message}: ${res.otp}`
           			document.getElementById('otp_generator').style.display = "none";
+          			countdownTimer(res.time);
           		}
           		else
           		{
@@ -100,6 +105,29 @@
 
         });
       })
+
+      function countdownTimer(timeInSeconds) {
+        let timer = setInterval(function() {
+          // Calculate remaining time
+          let minutes = Math.floor(timeInSeconds / 60);
+          let seconds = timeInSeconds % 60;
+          
+          // Display countdown timer
+          console.log(`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`);
+          document.getElementById('countDown').innerHTML = timeInSeconds
+
+          // Decrement timeInSeconds
+          timeInSeconds--;
+
+          // Clear the timer when the countdown is finished
+          if (timeInSeconds < 0) {
+            clearInterval(timer);
+            console.log("Countdown finished!");
+          }
+        }, 1000);
+      }
+
+      // Example usage: countdownTimer(120); // Starts a countdown for 2 minutes
 
     </script>
     

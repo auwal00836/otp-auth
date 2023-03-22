@@ -4,8 +4,8 @@ $connect = mysqli_connect("localhost", "root", "", "otp_system");
 // require_once "config/dBase.php";
 
 function getTimeDifference($time){
-	$now = time('now');
-	$difference = $now - $time;
+	$now = time();
+	$difference = $time - $now;
 
 	return $difference;
 }
@@ -40,7 +40,7 @@ function getOTP($email, $dbconn){
 }
 
 function getExpiryTime($email,$otp, $dbconn){
-	$query = "SELECT expiry_time FROM otp_request WHERE email='$email' AND otp='$otp'";
+	$query = "SELECT expiry_time FROM otp_request WHERE email='$email' OR otp='$otp'";
   $result = $dbconn->query($query);
   $row = mysqli_fetch_assoc($result);
   return $row['expiry_time'];	
@@ -67,7 +67,8 @@ function requestOTP($email, $now, $dbconn){
 			$error = array(
 				'success' => False,
 				'message' => 'You have a Pending OTP',
-				'otp' =>  getOTP($email, $dbconn)
+				'otp' =>  getOTP($email, $dbconn),
+				'time' => getTimeDifference(getExpiryTime($email, $otp, $dbconn))
 			);
 			return $error;	
 		}
@@ -79,7 +80,8 @@ function requestOTP($email, $now, $dbconn){
 				$data = array(
 					'success' => True,
 					'generatedTime' => $now,
-					'otp' => $otp
+					'otp' => $otp,
+					'time' => getTimeDifference(getExpiryTime($email,$otp, $dbconn))
 				);
 				return $data;
 			}
@@ -92,7 +94,8 @@ function requestOTP($email, $now, $dbconn){
   	$data = array(
   		'success' => True,
   		'generatedTime' => $now,
-  		'otp' => $otp
+  		'otp' => $otp,
+			'time' => getTimeDifference(getExpiryTime($email,$otp, $dbconn))
   	);
   	return $data;
   }
