@@ -122,12 +122,9 @@
           // Clear the timer when the countdown is finished
           if (timeInSeconds < 0) {
             clearInterval(timer);
-            console.log("Countdown finished!");
           }
         }, 1000);
       }
-
-      // Example usage: countdownTimer(120); // Starts a countdown for 2 minutes
 
     </script>
     

@@ -1,12 +1,9 @@
 <?php
 $connect = mysqli_connect("localhost", "root", "", "otp_system");
-//fetch.php
-// require_once "config/dBase.php";
 
 function getTimeDifference($time){
 	$now = time();
 	$difference = $time - $now;
-
 	return $difference;
 }
 
@@ -51,7 +48,7 @@ function requestOTP($email, $now, $dbconn){
 	$hasExistingRequest = hasExistingRequest($email, $dbconn);
 	$isUserRegistered = isUserRegistered($email, $dbconn);
 	$otp = rand(100000,999999);
-	$expiryTime = $now + 60; //10 minutes
+	$expiryTime = $now + 120; //10 minutes
 	
 	if(!$isUserRegistered){
 		$error = array(
@@ -110,42 +107,12 @@ if(isset($_POST['email'])){
 	$email = $_POST['email'];
   $data = array();
   $makeRequest = requestOTP($email, time(), $connect);
-  // $hasExistingRequest = hasExistingRequest($email, $connect);
-  // echo json_encode($hasExistingRequest);
+  
   echo json_encode($makeRequest);
-  // echo json_encode(getOTP($email, $connect));
-  // while($row = mysqli_fetch_assoc($result)){
-  //   array_push($data, $row);
-  // }
-  // echo json_encode($makeRequest);
+  
 }
 else{
   echo json_encode($error);
 }
 
-
-
-/*$error = array("message" => "Method Not Allowed");
-
- 
-require_once "user.class.php";
-$data = array();
-
-
-$database = new dBase();
-$email = $_POST['email'];
-
-
-echo $email;*/
-
-// echo json_encode($_POST['email']);
-
-  /*while($row = mysqli_fetch_assoc($result)){
-    array_push($data, $row);
-  }
-  echo json_encode($data);
-}
-else{
-  echo json_encode($error);
-}*/
 ?>

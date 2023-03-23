@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 17, 2023 at 02:11 PM
+-- Generation Time: Mar 23, 2023 at 02:07 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -30,11 +30,19 @@ SET time_zone = "+00:00";
 CREATE TABLE `otp_request` (
   `id` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `otp` int(11) DEFAULT NULL,
+  `otp` varchar(11) DEFAULT NULL,
   `used` tinyint(1) NOT NULL DEFAULT 0,
   `generated_time` varchar(20) DEFAULT NULL,
+  `expiry_time` varchar(20) NOT NULL,
   `request_time` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `otp_request`
+--
+
+INSERT INTO `otp_request` (`id`, `email`, `otp`, `used`, `generated_time`, `expiry_time`, `request_time`) VALUES
+(52, 'yahuzaabdulrazak@gmail.com', '313474', 0, '1679550663', '1679550783', '2023-03-22 16:48:44.142189');
 
 -- --------------------------------------------------------
 
@@ -82,7 +90,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `otp_request`
 --
 ALTER TABLE `otp_request`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `users`
