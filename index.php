@@ -30,7 +30,7 @@ session_start();
       $msg_type = 'success';
       $msg = 'Login successfully.';
       
-      header("Location: email.request.php" );
+      header("Location: otp.page.php" );
 
     }
     

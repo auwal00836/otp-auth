@@ -38,9 +38,14 @@
                 </div>
       
                 <h6 class="font-weight-light">Provide Your Email for verification.</h6>
-                <div class="alert d-none" id="otp"></div>
+                <div class="alert d-none" id="otp-container">
+                	<center>
+                		<h1 id="otp"></h1>
+                	</center>
+                </div>
+                <br>
                 <center>
-                	<h1 id="countDown"></h1>
+                	<h1 id="countDown" style="font-size: 50px; transform:scaleY(3); transform:scaleX(2)"></h1>
                 </center>
                 <form class="pt-3" id="otp_generator">
                   <div class="form-group">
@@ -75,25 +80,27 @@
           	success: function(res){
           		console.log(res)
           		if(res.success === true){
-          			document.getElementById('otp').classList.add('alert-success')
-          			document.getElementById('otp').classList.remove('d-none')
+          			document.getElementById('otp-container').classList.add('alert-success')
+          			document.getElementById('otp-container').classList.remove('d-none')
           			document.getElementById('otp').innerHTML = res.otp
 
           			document.getElementById('otp_generator').style.display = "none";
+          			document.getElementById('otp').style.fontSize = 40;
           			countdownTimer(res.time);
           		}
           		else if(res.success === false && res.otp)
           		{
-          			document.getElementById('otp').classList.add('alert-warning')
-          			document.getElementById('otp').classList.remove('d-none')
-          			document.getElementById('otp').innerHTML = `${res.message}: ${res.otp}`
+          			document.getElementById('otp-container').classList.add('alert-warning')
+          			document.getElementById('otp-container').classList.remove('d-none')
+          			document.getElementById('otp').innerHTML = res.otp
           			document.getElementById('otp_generator').style.display = "none";
+          			document.getElementById('otp').style.fontSize = 40;
           			countdownTimer(res.time);
           		}
           		else
           		{
-          			document.getElementById('otp').classList.add('alert-danger')
-          			document.getElementById('otp').classList.remove('d-none')
+          			document.getElementById('otp-container').classList.add('alert-danger')
+          			document.getElementById('otp-container').classList.remove('d-none')
           			document.getElementById('otp').innerHTML = `${res.message}`	
           			document.getElementById('otp_generator').style.display = "none";
           		}

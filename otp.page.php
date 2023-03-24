@@ -62,16 +62,16 @@ session_start();
                <center><img src="img/logo.jpg" alt="logo" height="120" style=" width:300px; border-radius: 30px;"></center>
               </div>
     
-              <h6 class="font-weight-light">Provide Your Email address for verification.</h6>
+              <h6 class="font-weight-light" style="text-align: center;">Enter OTP generated in your OTP Generator.</h6>
               <div class="alert alert-<?php echo $msg_type; ?>">
                 <?php echo $msg; ?>
               </div>
               <form class="pt-3" method="POST" action="">
                 <div class="form-group">
-                  <input type="number" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter Your Email.." name="otp">
+                  <input type="text" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter OTP" name="otp">
                 </div>
                  <div class="mt-3">
-                  <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="login">Login</button>
+                  <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="login">Authenticate</button>
                 </div>
               </form>
             </div>
