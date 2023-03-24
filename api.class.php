@@ -37,6 +37,13 @@ class Api{
 	  return $row['otp'];	
 	}
 
+	public function isValidOTP($email, $otp, $dbconn){
+		$query = "SELECT otp FROM otp_request WHERE email='$email' AND otp='$otp'";
+	  $result = $dbconn->query($query);
+	  $status = mysqli_num_rows($result) > 0 ? true : false;
+	  return $status;	
+	}
+
 	public function getExpiryTime($email,$otp, $dbconn){
 		$query = "SELECT expiry_time FROM otp_request WHERE email='$email' OR otp='$otp'";
 	  $result = $dbconn->query($query);

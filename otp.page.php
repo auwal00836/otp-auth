@@ -1,33 +1,45 @@
 <?php 
 session_start();
+$connect = mysqli_connect("localhost", "root", "", "otp_system");
+
   $msg = '';
   $msg_type = '';
   if (isset($_POST['login'])) 
   {
 
     require_once "user.class.php";
+    require_once "api.class.php";
 
     // validate the user's inputs
     $otp = $_POST['otp'];
-  
+  	$email = $_SESSION['email'];
     $user = new User();
-    $login = $user->login($email, $otp);
+    $api = new Api();
 
-    if (!$login) 
-    {
+    $hasExpired = $api->hasExpired($otp, $api->getExpiryTime($email, $api->getOTP($email,$connect), $connect));
+    $isValidOTP = $api->isValidOTP($email, $otp, $connect);
 
-      $msg_type = 'danger';
-      $msg = 'Failed to login.';
+    if(!$hasExpired && $isValidOTP){
+    	echo "True";
+    }
+    else{
+    	echo "False";
+    }
+    // if () 
+    // {
+
+    //   $msg_type = 'danger';
+    //   $msg = 'Failed to login.';
       
-    }
-    else
-    {
+    // }
+    // else
+    // {
 
-      $msg_type = 'success';
-      $msg = 'Login successfully.';
-      header("Location: dashboard.php" );
+    //   $msg_type = 'success';
+    //   $msg = 'Login successfully.';
+    //   header("Location: dashboard.php" );
 
-    }
+    // }
     
   }
 ?>
@@ -68,10 +80,13 @@ session_start();
               </div>
               <form class="pt-3" method="POST" action="">
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter OTP" name="otp">
+                  <input type="text" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Enter OTP" name="otp" required>
                 </div>
                  <div class="mt-3">
                   <button type="submit" class="btn btn-block btn-primary btn-md font-weight-medium auth-form-btn" name="login">Authenticate</button>
+                </div>
+                <div class="text-center mt-4 font-weight-light">
+                  Request OTP <a href="otp.generator.php" target="_blank" class="text-primary">HERE</a>
                 </div>
               </form>
             </div>
