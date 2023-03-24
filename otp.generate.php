@@ -45,7 +45,7 @@
                 </div>
                 <br>
                 <center>
-                	<h1 id="countDown" style="font-size: 50px; transform:scaleY(3); transform:scaleX(2)"></h1>
+                	<h1 id="countDown" style="font-size: 50px; transform: scale(2.5, 2)"></h1>
                 </center>
                 <form class="pt-3" id="otp_generator">
                   <div class="form-group">
